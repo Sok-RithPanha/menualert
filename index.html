@@ -1,1 +1,86 @@
-=<!DOCTYPE html><html><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>={{ $('Workflow Configuration1').item.json.restaurantName }} - Menu</title><style>* { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; } .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; } .header { background: ={{ $('Workflow Configuration1').item.json.primaryColor }}; color: white; padding: 60px 40px; text-align: center; } .header h1 { font-size: 3em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); } .tagline { font-size: 1.2em; opacity: 0.9; font-style: italic; } .menu-content { padding: 40px; } .menu-section { margin-bottom: 50px; } .section-title { font-size: 2em; color: ={{ $('Workflow Configuration1').item.json.primaryColor }}; border-bottom: 3px solid ={{ $('Workflow Configuration1').item.json.primaryColor }}; padding-bottom: 10px; margin-bottom: 30px; } .menu-item { margin-bottom: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px; transition: transform 0.2s; } .menu-item:hover { transform: translateX(10px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); } .item-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; } .item-name { font-size: 1.4em; font-weight: bold; color: #333; } .item-price { font-size: 1.3em; color: ={{ $('Workflow Configuration1').item.json.primaryColor }}; font-weight: bold; } .item-description { color: #666; line-height: 1.6; } .footer { background: #f8f9fa; padding: 30px 40px; text-align: center; border-top: 1px solid #dee2e6; } .contact-info { color: #666; line-height: 1.8; } </style></head><body><div class='container'><div class='header'><h1>={{ $('Workflow Configuration1').item.json.restaurantName }}</h1><p class='tagline'>={{ $json.output.tagline }}</p></div><div class='menu-content'>={{ $json.output.menuSections.map(section => `<div class='menu-section'><h2 class='section-title'>${section.sectionName}</h2>${section.items.map(item => `<div class='menu-item'><div class='item-header'><span class='item-name'>${item.name}</span><span class='item-price'>${item.price}</span></div><p class='item-description'>${item.description}</p></div>`).join('')}</div>`).join('') }}</div><div class='footer'><div class='contact-info'>={{ $('Workflow Configuration1').item.json.contact }}</div></div></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Digital Menu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    .menu {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin: auto;
+    }
+    .item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    button {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+
+<div class="menu">
+  <h2>🍽️ Digital Menu</h2>
+
+  <div class="item">
+    <span>🍔 Burger - $3</span>
+    <button onclick="order('Burger')">Order</button>
+  </div>
+
+  <div class="item">
+    <span>🍕 Pizza - $5</span>
+    <button onclick="order('Pizza')">Order</button>
+  </div>
+
+  <div class="item">
+    <span>🥤 Coke - $1</span>
+    <button onclick="order('Coke')">Order</button>
+  </div>
+</div>
+
+<script>
+  function order(item) {
+    const botToken = "7762731023:AAE8xPU8h9X8EF0ba0CIeKH8ENUD2A5IkUM";
+    const chatId = "7762731023";
+    const message = `🛒 New Order!\nItem: ${item}`;
+
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: message
+      })
+    })
+    .then(response => {
+      alert("✅ Order sent!");
+    })
+    .catch(error => {
+      alert("❌ Failed to send order");
+    });
+  }
+</script>
+
+</body>
+</html>
